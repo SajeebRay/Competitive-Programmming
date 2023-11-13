@@ -11,10 +11,6 @@
 // using namespace __gnu_pbds;
 // #define ordered_set tree<int, null_type,less<int>, rb_tree_tag,tree_order_statistics_node_update>
 #define nl "\n"
-#define mod 998244353
-#define pi 3.141592653589793238
-#define l_max LLONG_MAX
-#define l_min LLONG_MIN
 #define pb push_back
 #define mp make_pair
 #define ff first
@@ -38,6 +34,10 @@
 #define In freopen("Input.txt", "r", stdin);
 #define InOut freopen("Input.txt", "r", stdin); freopen("Output.txt", "w", stdout);
 #define print(v) {for(auto x:v) cout << x << " "; cout << nl;}
+#define YES cout << "YES";
+#define Yes cout << "Yes";
+#define NO cout << "NO";
+#define No cout << "No";
 
 using namespace std;
 using ull = uint64_t; //64bit
@@ -48,9 +48,18 @@ typedef vector<string> vs;
 typedef map<int, int> mi;
 typedef map<long long, long long> ml;
 typedef multiset<long long> msl;
+typedef multiset<char> msc;
+typedef set<long long> sl;
+typedef set<char> sc;
 typedef queue<long long> ql;
 typedef pair<ll,ll> pl;
 typedef vector<pl> vpl;
+
+const ll mod = 98244353;
+const double pi = 3.141592653589793238;
+const ll l_max = 1e18;
+const ll l_min = -1e18;
+
 bool isPrime(ll n){if(n<=1)return false;if(n<=3)return true;if(n%2==0||n%3==0)return false;for(int i=5;i*i<=n;i=i+6)if(n%i==0||n%(i+2)==0)return false;return true;}
 ll mod_pow(ll base, ll pow){ ll res = 1; while(pow){ if(pow&1){ res = (res*base)%mod; pow--;} base = (base*base)%mod; pow /= 2;} return res%mod; }
 ll factorial(ll x){ if(x == 1) return 1; return (x*factorial(x-1))%mod;  }
@@ -58,37 +67,26 @@ bool pairScnd_Element(const pair<int, int> &a, const pair<int, int> &b) { if(a.f
 bool is_sorted(vector<ll> v){vl v2 = v; ascending(v); if(v == v2) return true; else return false;}
 ll andInRange(ll n, ll m){ ll ans = 0; while(n!=m){ n>>=1; m>>=1; ans++;} return (n<<ans);}
 vector<ll> primeFactorization(ll n){ vector<ll> fac; while(n%2 ==  0){fac.push_back(2); n/=2;}for(ll i=3;i*i<=n;i+=2){while(n%i == 0){fac.push_back(i);n /= i;}}if(n > 2){fac.push_back(n);}sort(fac.begin(), fac.end()); return fac;}
+
 ////////////////////* Solution *///////////////////
 void solve(){
-  ll n, m, d;
-  cin >> n>> m >> d;
-  vl a(m);
-  ml per;
-  loop(i,0,n-1) {
-    ll x;
-    cin >> x;
-    per[x] = i;
+  ll x, y;
+  cin >> x >> y;
+  vl v;
+  loop(i, y+1, x-1){
+    v.pb(i);
   }
-  loop(i,0,m-1) cin >> a[i];
-  ll ans = 1e5, pos, pos1;
-  loop(i,0,m-2){
-    pos = per[a[i]];
-    pos1 = per[a[i+1]];
-    if(pos<pos1 && pos1 <= pos+d){
-      ll dis = pos1-pos;
-      ll temp;
-      if(d+1 < n){
-        temp = (d+1)-dis;
-        ans = min(ans, temp);
-      }
-      ans = min(ans, dis);
-    }
-    else {
-      cout << 0;
-      return;
-    }
+  if(v.size() == 0) cout << 2 << nl << x << " " << y;
+  else{
+    ll len = v.size();
+    cout << len*2+2 << nl;
+    cout << x << " ";
+    vl t = v;
+    reverse(t);
+    for(auto m : t) cout << m << " ";
+    cout << y << " ";
+    for(auto m : v) cout << m << " ";
   }
-  cout << ans;
 }
 int main()
 {

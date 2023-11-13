@@ -1,7 +1,7 @@
 /***********JoyGuru************
  *                            *
  *  Author: Sajeeb Kumar Ray  *
- *     User id: sajeeb02      *
+ *       User id: s_aj        *
  *                            *
  ******************************/
 #include<bits/stdc++.h>
@@ -22,7 +22,7 @@
 #define descending(a) sort(a.rbegin(), a.rend())
 #define ascending(a) sort(a.begin(), a.end())
 #define reverse(a) reverse(a.begin(), a.end())
-#define loop(i,m,n) for(ll i = m; i <= n; i++)
+#define loop(i,m,n) for(int i = m; i <= n; i++)
 #define r_loop(i,m,n) for(ll i = m; i >= n; i--)
 #define swap(a,b) {a = a+b; b = a-b; a = a-b;} //b = a+b-b, a = a+b-a
 #define c_swap(a,b){char t = a; a = b; b = t;}
@@ -37,7 +37,6 @@
 #define Ray cout.tie(NULL);
 #define In freopen("Input.txt", "r", stdin);
 #define InOut freopen("Input.txt", "r", stdin); freopen("Output.txt", "w", stdout);
-#define print(v) {for(auto x:v) cout << x << " "; cout << nl;}
 
 using namespace std;
 using ull = uint64_t; //64bit
@@ -47,8 +46,6 @@ typedef vector<long long> vl;
 typedef vector<string> vs;
 typedef map<int, int> mi;
 typedef map<long long, long long> ml;
-typedef multiset<long long> msl;
-typedef queue<long long> ql;
 typedef pair<ll,ll> pl;
 typedef vector<pl> vpl;
 bool isPrime(ll n){if(n<=1)return false;if(n<=3)return true;if(n%2==0||n%3==0)return false;for(int i=5;i*i<=n;i=i+6)if(n%i==0||n%(i+2)==0)return false;return true;}
@@ -56,36 +53,21 @@ ll mod_pow(ll base, ll pow){ ll res = 1; while(pow){ if(pow&1){ res = (res*base)
 ll factorial(ll x){ if(x == 1) return 1; return (x*factorial(x-1))%mod;  }
 bool pairScnd_Element(const pair<int, int> &a, const pair<int, int> &b) { if(a.ff == b.ff) a.ss < b.ss; return (a.ff > b.ff); }
 bool is_sorted(vector<ll> v){vl v2 = v; ascending(v); if(v == v2) return true; else return false;}
-ll andInRange(ll n, ll m){ ll ans = 0; while(n!=m){ n>>=1; m>>=1; ans++;} return (n<<ans);}
-vector<ll> primeFactorization(ll n){ vector<ll> fac; while(n%2 ==  0){fac.push_back(2); n/=2;}for(ll i=3;i*i<=n;i+=2){while(n%i == 0){fac.push_back(i);n /= i;}}if(n > 2){fac.push_back(n);}sort(fac.begin(), fac.end()); return fac;}
+
 ////////////////////* Solution *///////////////////
 void solve(){
-  ll n, m, d;
-  cin >> n>> m >> d;
-  vl a(m);
-  ml per;
-  loop(i,0,n-1) {
-    ll x;
-    cin >> x;
-    per[x] = i;
+  int v[6][6];
+  loop(i,0,5){
+    loop(j,0,5) cin >> v[i][j];
   }
-  loop(i,0,m-1) cin >> a[i];
-  ll ans = 1e5, pos, pos1;
-  loop(i,0,m-2){
-    pos = per[a[i]];
-    pos1 = per[a[i+1]];
-    if(pos<pos1 && pos1 <= pos+d){
-      ll dis = pos1-pos;
-      ll temp;
-      if(d+1 < n){
-        temp = (d+1)-dis;
-        ans = min(ans, temp);
-      }
-      ans = min(ans, dis);
-    }
-    else {
-      cout << 0;
-      return;
+  int sum = 0, ans = INT_MIN;
+  loop(i,0,3){
+    loop(j,0,3){
+      sum = 0;
+      sum += v[i][j]+v[i][j+1]+v[i][j+2];
+      sum += v[i+1][j+1];
+      sum += v[i+2][j]+v[i+2][j+1]+v[i+2][j+2];
+      ans = max(sum,ans);
     }
   }
   cout << ans;
@@ -94,9 +76,9 @@ int main()
 {
   Sajeeb Kumar Ray
   int i = 1, tc = 1;
-  cin >> tc;
+  //cin >> tc;
   while(tc--){
-    //cout << "Case " << i++ << ": ";
+    //cout << "Case#" << i++ << " ";
     solve();
     cout << nl;
   }

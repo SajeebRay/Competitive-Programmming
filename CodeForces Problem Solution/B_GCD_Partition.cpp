@@ -57,36 +57,21 @@ ll factorial(ll x){ if(x == 1) return 1; return (x*factorial(x-1))%mod;  }
 bool pairScnd_Element(const pair<int, int> &a, const pair<int, int> &b) { if(a.ff == b.ff) a.ss < b.ss; return (a.ff > b.ff); }
 bool is_sorted(vector<ll> v){vl v2 = v; ascending(v); if(v == v2) return true; else return false;}
 ll andInRange(ll n, ll m){ ll ans = 0; while(n!=m){ n>>=1; m>>=1; ans++;} return (n<<ans);}
-vector<ll> primeFactorization(ll n){ vector<ll> fac; while(n%2 ==  0){fac.push_back(2); n/=2;}for(ll i=3;i*i<=n;i+=2){while(n%i == 0){fac.push_back(i);n /= i;}}if(n > 2){fac.push_back(n);}sort(fac.begin(), fac.end()); return fac;}
 ////////////////////* Solution *///////////////////
 void solve(){
-  ll n, m, d;
-  cin >> n>> m >> d;
-  vl a(m);
-  ml per;
+  ll n, sum = 0, temp = 0;
+  cin >> n;
+  vl v(n);
   loop(i,0,n-1) {
-    ll x;
-    cin >> x;
-    per[x] = i;
+    cin >> v[i];
+    sum += v[i];
   }
-  loop(i,0,m-1) cin >> a[i];
-  ll ans = 1e5, pos, pos1;
-  loop(i,0,m-2){
-    pos = per[a[i]];
-    pos1 = per[a[i+1]];
-    if(pos<pos1 && pos1 <= pos+d){
-      ll dis = pos1-pos;
-      ll temp;
-      if(d+1 < n){
-        temp = (d+1)-dis;
-        ans = min(ans, temp);
-      }
-      ans = min(ans, dis);
-    }
-    else {
-      cout << 0;
-      return;
-    }
+  ll ans = -1*(1e5);
+  loop(i,0,n-2){
+    temp += v[i];
+    sum -= v[i];
+    ll x = gcd(temp, sum);
+    ans = max(ans, x);
   }
   cout << ans;
 }

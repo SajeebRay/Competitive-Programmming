@@ -1,7 +1,7 @@
 /***********JoyGuru************
  *                            *
  *  Author: Sajeeb Kumar Ray  *
- *     User id: sajeeb02      *
+ *       User id: s_aj        *
  *                            *
  ******************************/
 #include<bits/stdc++.h>
@@ -37,7 +37,7 @@
 #define Ray cout.tie(NULL);
 #define In freopen("Input.txt", "r", stdin);
 #define InOut freopen("Input.txt", "r", stdin); freopen("Output.txt", "w", stdout);
-#define print(v) {for(auto x:v) cout << x << " "; cout << nl;}
+#define print(v) {for(auto x:v) cout << x << " ";}
 
 using namespace std;
 using ull = uint64_t; //64bit
@@ -56,39 +56,28 @@ ll mod_pow(ll base, ll pow){ ll res = 1; while(pow){ if(pow&1){ res = (res*base)
 ll factorial(ll x){ if(x == 1) return 1; return (x*factorial(x-1))%mod;  }
 bool pairScnd_Element(const pair<int, int> &a, const pair<int, int> &b) { if(a.ff == b.ff) a.ss < b.ss; return (a.ff > b.ff); }
 bool is_sorted(vector<ll> v){vl v2 = v; ascending(v); if(v == v2) return true; else return false;}
-ll andInRange(ll n, ll m){ ll ans = 0; while(n!=m){ n>>=1; m>>=1; ans++;} return (n<<ans);}
-vector<ll> primeFactorization(ll n){ vector<ll> fac; while(n%2 ==  0){fac.push_back(2); n/=2;}for(ll i=3;i*i<=n;i+=2){while(n%i == 0){fac.push_back(i);n /= i;}}if(n > 2){fac.push_back(n);}sort(fac.begin(), fac.end()); return fac;}
+
 ////////////////////* Solution *///////////////////
 void solve(){
-  ll n, m, d;
-  cin >> n>> m >> d;
-  vl a(m);
-  ml per;
-  loop(i,0,n-1) {
-    ll x;
-    cin >> x;
-    per[x] = i;
-  }
-  loop(i,0,m-1) cin >> a[i];
-  ll ans = 1e5, pos, pos1;
-  loop(i,0,m-2){
-    pos = per[a[i]];
-    pos1 = per[a[i+1]];
-    if(pos<pos1 && pos1 <= pos+d){
-      ll dis = pos1-pos;
-      ll temp;
-      if(d+1 < n){
-        temp = (d+1)-dis;
-        ans = min(ans, temp);
-      }
-      ans = min(ans, dis);
+  ll n, cnt = 0;
+  cin >> n;
+  string str, s = "";
+  cin >> str;
+  r_loop(i,n-1,0){
+    if(str[i] == '0'){
+      ll x = (int)(str[i-2]-48);
+      ll y = (int)(str[i-1]-48);
+      x = (x*10)+y;
+      s += (char)(96+x);
+      i -= 2;
+      cnt++;
     }
-    else {
-      cout << 0;
-      return;
+    else{
+      s += (char)(96+(int)(str[i]-48));
+      cnt++;
     }
   }
-  cout << ans;
+  r_loop(i,cnt-1,0) cout <<s[i];
 }
 int main()
 {

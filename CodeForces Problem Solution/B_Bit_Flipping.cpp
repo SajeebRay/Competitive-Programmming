@@ -1,7 +1,7 @@
 /***********JoyGuru************
  *                            *
  *  Author: Sajeeb Kumar Ray  *
- *     User id: sajeeb02      *
+ *       User id: s_aj        *
  *                            *
  ******************************/
 #include<bits/stdc++.h>
@@ -37,7 +37,7 @@
 #define Ray cout.tie(NULL);
 #define In freopen("Input.txt", "r", stdin);
 #define InOut freopen("Input.txt", "r", stdin); freopen("Output.txt", "w", stdout);
-#define print(v) {for(auto x:v) cout << x << " "; cout << nl;}
+#define print(v) {for(auto x:v) cout << x << " ";}
 
 using namespace std;
 using ull = uint64_t; //64bit
@@ -56,39 +56,51 @@ ll mod_pow(ll base, ll pow){ ll res = 1; while(pow){ if(pow&1){ res = (res*base)
 ll factorial(ll x){ if(x == 1) return 1; return (x*factorial(x-1))%mod;  }
 bool pairScnd_Element(const pair<int, int> &a, const pair<int, int> &b) { if(a.ff == b.ff) a.ss < b.ss; return (a.ff > b.ff); }
 bool is_sorted(vector<ll> v){vl v2 = v; ascending(v); if(v == v2) return true; else return false;}
-ll andInRange(ll n, ll m){ ll ans = 0; while(n!=m){ n>>=1; m>>=1; ans++;} return (n<<ans);}
-vector<ll> primeFactorization(ll n){ vector<ll> fac; while(n%2 ==  0){fac.push_back(2); n/=2;}for(ll i=3;i*i<=n;i+=2){while(n%i == 0){fac.push_back(i);n /= i;}}if(n > 2){fac.push_back(n);}sort(fac.begin(), fac.end()); return fac;}
+
 ////////////////////* Solution *///////////////////
 void solve(){
-  ll n, m, d;
-  cin >> n>> m >> d;
-  vl a(m);
-  ml per;
-  loop(i,0,n-1) {
-    ll x;
-    cin >> x;
-    per[x] = i;
-  }
-  loop(i,0,m-1) cin >> a[i];
-  ll ans = 1e5, pos, pos1;
-  loop(i,0,m-2){
-    pos = per[a[i]];
-    pos1 = per[a[i+1]];
-    if(pos<pos1 && pos1 <= pos+d){
-      ll dis = pos1-pos;
-      ll temp;
-      if(d+1 < n){
-        temp = (d+1)-dis;
-        ans = min(ans, temp);
+  int n, k;
+  cin >> n >> k;
+  string s;
+  cin >> s;
+  vector<int> zero, one;
+  int ans[n];
+  for(int i = 0; i < n; i++)  {
+      ans[i] = 0;
+      if(s[i] == '0') {
+          zero.push_back(i);
+      }  else{
+          one.push_back(i);
       }
-      ans = min(ans, dis);
-    }
-    else {
-      cout << 0;
-      return;
-    }
   }
-  cout << ans;
+  int count = 0;
+  if(k%2) {
+      //odd
+      for(int i = 0; i < min(k, (int)one.size()); i++) {
+          ans[one[i]] = 1;
+          count++;
+      }
+  } else{
+      //even
+      for(int i = 0; i < min(k, (int)zero.size()); i++) {
+          ans[zero[i]] = 1;
+          count++;
+      }
+  }
+  ans[n-1] += k-count;
+  for(int i = 0; i < n; i++)  {
+      if(k%2) {
+          if(ans[i]%2 == 0)    {
+              s[i] = '0' + ('1' - s[i]);
+          }
+      } else {
+          if(ans[i]%2 == 1)    {
+              s[i] = '0' + ('1' - s[i]);
+          }
+      }
+  }
+  cout << s << "\n";
+  print(ans);
 }
 int main()
 {
@@ -96,7 +108,7 @@ int main()
   int i = 1, tc = 1;
   cin >> tc;
   while(tc--){
-    //cout << "Case " << i++ << ": ";
+    //cout << "Case#" << i++ << " ";
     solve();
     cout << nl;
   }

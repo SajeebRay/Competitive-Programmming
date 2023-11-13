@@ -1,7 +1,7 @@
 /***********JoyGuru************
  *                            *
  *  Author: Sajeeb Kumar Ray  *
- *     User id: sajeeb02      *
+ *       User id: s_aj        *
  *                            *
  ******************************/
 #include<bits/stdc++.h>
@@ -22,7 +22,7 @@
 #define descending(a) sort(a.rbegin(), a.rend())
 #define ascending(a) sort(a.begin(), a.end())
 #define reverse(a) reverse(a.begin(), a.end())
-#define loop(i,m,n) for(ll i = m; i <= n; i++)
+#define loop(i,m,n) for(int i = m; i <= n; i++)
 #define r_loop(i,m,n) for(ll i = m; i >= n; i--)
 #define swap(a,b) {a = a+b; b = a-b; a = a-b;} //b = a+b-b, a = a+b-a
 #define c_swap(a,b){char t = a; a = b; b = t;}
@@ -37,7 +37,6 @@
 #define Ray cout.tie(NULL);
 #define In freopen("Input.txt", "r", stdin);
 #define InOut freopen("Input.txt", "r", stdin); freopen("Output.txt", "w", stdout);
-#define print(v) {for(auto x:v) cout << x << " "; cout << nl;}
 
 using namespace std;
 using ull = uint64_t; //64bit
@@ -56,39 +55,39 @@ ll mod_pow(ll base, ll pow){ ll res = 1; while(pow){ if(pow&1){ res = (res*base)
 ll factorial(ll x){ if(x == 1) return 1; return (x*factorial(x-1))%mod;  }
 bool pairScnd_Element(const pair<int, int> &a, const pair<int, int> &b) { if(a.ff == b.ff) a.ss < b.ss; return (a.ff > b.ff); }
 bool is_sorted(vector<ll> v){vl v2 = v; ascending(v); if(v == v2) return true; else return false;}
-ll andInRange(ll n, ll m){ ll ans = 0; while(n!=m){ n>>=1; m>>=1; ans++;} return (n<<ans);}
-vector<ll> primeFactorization(ll n){ vector<ll> fac; while(n%2 ==  0){fac.push_back(2); n/=2;}for(ll i=3;i*i<=n;i+=2){while(n%i == 0){fac.push_back(i);n /= i;}}if(n > 2){fac.push_back(n);}sort(fac.begin(), fac.end()); return fac;}
+
 ////////////////////* Solution *///////////////////
 void solve(){
-  ll n, m, d;
-  cin >> n>> m >> d;
-  vl a(m);
-  ml per;
-  loop(i,0,n-1) {
-    ll x;
+  ll n;
+  cin >> n;
+  msl ms;
+  ll sum = 0, temp,x;
+  loop(i,0,n-1){
     cin >> x;
-    per[x] = i;
+    ms.insert(x);
+    sum += x;
   }
-  loop(i,0,m-1) cin >> a[i];
-  ll ans = 1e5, pos, pos1;
-  loop(i,0,m-2){
-    pos = per[a[i]];
-    pos1 = per[a[i+1]];
-    if(pos<pos1 && pos1 <= pos+d){
-      ll dis = pos1-pos;
-      ll temp;
-      if(d+1 < n){
-        temp = (d+1)-dis;
-        ans = min(ans, temp);
-      }
-      ans = min(ans, dis);
-    }
+  ql q;
+  q.push(sum);
+  while(!q.empty()){
+    ll value = q.front();
+    q.pop();
+    if(ms.find(value) != ms.end())
+      ms.erase(ms.find(value));
     else {
-      cout << 0;
-      return;
+      if(value == 1){
+        cout << "NO";
+        return;
+      }
+      q.push(value/2);
+      q.push((value+1)/2);
+      if(q.size() > ms.size()){
+        cout << "NO";
+        return;
+      }
     }
   }
-  cout << ans;
+  cout << "YES";
 }
 int main()
 {
@@ -96,7 +95,7 @@ int main()
   int i = 1, tc = 1;
   cin >> tc;
   while(tc--){
-    //cout << "Case " << i++ << ": ";
+    //cout << "Case#" << i++ << " ";
     solve();
     cout << nl;
   }
