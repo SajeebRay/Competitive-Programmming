@@ -55,7 +55,7 @@ typedef queue<long long> ql;
 typedef pair<ll,ll> pl;
 typedef vector<pl> vpl;
 
-const ll mod = 1e9+7;
+const ll mod = 98244353;
 const double pi = 3.141592653589793238;
 const ll l_max = 1e18;
 const ll l_min = -1e18;
@@ -67,54 +67,54 @@ bool pairScnd_Element(const pair<int, int> &a, const pair<int, int> &b) { if(a.f
 bool is_sorted(vector<ll> v){vl v2 = v; ascending(v); if(v == v2) return true; else return false;}
 ll andInRange(ll n, ll m){ ll ans = 0; while(n!=m){ n>>=1; m>>=1; ans++;} return (n<<ans);}
 vector<ll> primeFactorization(ll n){ vector<ll> fac; while(n%2 ==  0){fac.push_back(2); n/=2;}for(ll i=3;i*i<=n;i+=2){while(n%i == 0){fac.push_back(i);n /= i;}}if(n > 2){fac.push_back(n);}sort(fac.begin(), fac.end()); return fac;}
+vector<ll> divisors(ll n){ vector<ll> v; for(ll i = 1; i*i <= n; i++){ if(n%i == 0){ v.push_back(i); if(i != n/i) v.push_back(n/i); } } ascending(v); return v; }
 
 ////////////////////* Solution *///////////////////
-vector<ll> adj[100005];
-bool vis[100005], forbid;
-set<ll> forbidden;
-ll cycle = 0;
-void dfs(ll sv){
-  if(forbidden.count(sv)) forbid = true;
-  vis[sv] = true;
-  for(auto child: adj[sv]){
-    if(!(vis[child])) dfs(child);
-  }
-}
 void solve(){
-  ll n;
-  cin >> n;
-  loop(i,0,n){
-    adj[i].clear();
-    vis[i] = false;
-    cycle = 0;
-    forbidden.clear();
-  }
-  vl v1(n), v2(n), v3(n);
-  loop(i,0,n-1) cin >> v1[i];
-  loop(i,0,n-1) cin >> v2[i];
-  loop(i,0,n-1){ 
-    cin >> v3[i]; 
-    forbidden.insert(v3[i]); 
-  }
+  ll n, k;
+  cin >> n >> k;
+  ml cnt;
+  vl v(n);
   loop(i,0,n-1){
-    if(v1[i] == v2[i]) continue;
-    adj[v1[i]].pb(v2[i]);
-    adj[v2[i]].pb(v1[i]);
+    cin >> v[i];
+    cnt[v[i]]++;
   }
+  vl cold(k+1), hot(k+1);
+  loop(i,1,k) cin >> cold[i];
+  loop(i,1,k) cin >> hot[i];
+  vpl p;
+  for(auto x: cnt) p.pb({x.ss, x.ff});
+  descending(p);
+  for(auto x: p) cout << x.ff << " " << x.ss << nl;
+  ll idx = 0;
+  ll cpu1 = -1, cpu2 = -1, priority = p[idx].ss;
+  vl finish(k+1, 0);
+  ll ans = 0;
   loop(i,0,n-1){
-    if(v1[i] == v2[i]) continue;
-    forbid = false;
-    if(!vis[v1[i]]){
-      dfs(v1[i]); 
-      if(!forbid) {
-        cycle++;
-        //cout << v1[i] <<nl;
+    //cout << cpu1 << " " << cpu2 << " f " << priority << nl;
+    if(cpu2 == v[i] || cpu1 == v[i]){
+        ans += hot[v[i]];
+    }
+    else if(v[i] == priority){
+      if(cpu1 == v[i]) ans += hot[v[i]];
+      else {
+        cpu1 = priority;
+        ans += cold[v[i]];
       }
     }
-  }
-  ll ans  = 1;
-  loop(i,1,cycle){
-    ans = (ans*2)%mod;
+    else{
+      ans += cold[v[i]];
+      if(cpu1 == -1){
+        cpu1 = v[i];
+      }
+      cpu2 = v[i];
+    }
+    finish[v[i]]++;
+    if((p[idx].ff == finish[p[idx].ss]) && idx+1 < k){
+      idx++;
+      priority = p[idx].ff;
+    }
+    //cout << cpu1 << " " << cpu2 << " s " << priority << nl;
   }
   cout << ans;
 }

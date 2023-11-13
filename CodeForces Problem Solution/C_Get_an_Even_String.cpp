@@ -1,7 +1,7 @@
 /***********JoyGuru************
  *                            *
  *  Author: Sajeeb Kumar Ray  *
- *     User id: sajeeb02      *
+ *       User id: s_aj        *
  *                            *
  ******************************/
 #include<bits/stdc++.h>
@@ -11,6 +11,8 @@
 // using namespace __gnu_pbds;
 // #define ordered_set tree<int, null_type,less<int>, rb_tree_tag,tree_order_statistics_node_update>
 #define nl "\n"
+#define mod 998244353
+#define pi 3.141592653589793238
 #define pb push_back
 #define mp make_pair
 #define ff first
@@ -18,10 +20,9 @@
 #define descending(a) sort(a.rbegin(), a.rend())
 #define ascending(a) sort(a.begin(), a.end())
 #define reverse(a) reverse(a.begin(), a.end())
-#define loop(i,m,n) for(ll i = m; i <= n; i++)
+#define loop(i,m,n) for(int i = m; i <= n; i++)
 #define r_loop(i,m,n) for(ll i = m; i >= n; i--)
 #define swap(a,b) {a = a+b; b = a-b; a = a-b;} //b = a+b-b, a = a+b-a
-#define c_swap(a,b){char t = a; a = b; b = t;}
 #define min3(a,b,c) min(a, min(b,c))
 #define min4(a,b,c,d) min(a, min(b, min(c,d)))
 #define max3(a,b,c) max(a, max(b,c))
@@ -33,89 +34,48 @@
 #define Ray cout.tie(NULL);
 #define In freopen("Input.txt", "r", stdin);
 #define InOut freopen("Input.txt", "r", stdin); freopen("Output.txt", "w", stdout);
-#define print(v) {for(auto x:v) cout << x << " "; cout << nl;}
-#define YES cout << "YES";
-#define Yes cout << "Yes";
-#define NO cout << "NO";
-#define No cout << "No";
 
 using namespace std;
 using ull = uint64_t; //64bit
 typedef long long int ll; //32bit
 typedef vector<int> vi;
 typedef vector<long long> vl;
-typedef vector<string> vs;
 typedef map<int, int> mi;
 typedef map<long long, long long> ml;
-typedef multiset<long long> msl;
-typedef multiset<char> msc;
-typedef set<long long> sl;
-typedef set<char> sc;
-typedef queue<long long> ql;
 typedef pair<ll,ll> pl;
 typedef vector<pl> vpl;
-
-const ll mod = 1e9+7;
-const double pi = 3.141592653589793238;
-const ll l_max = 1e18;
-const ll l_min = -1e18;
-
 bool isPrime(ll n){if(n<=1)return false;if(n<=3)return true;if(n%2==0||n%3==0)return false;for(int i=5;i*i<=n;i=i+6)if(n%i==0||n%(i+2)==0)return false;return true;}
 ll mod_pow(ll base, ll pow){ ll res = 1; while(pow){ if(pow&1){ res = (res*base)%mod; pow--;} base = (base*base)%mod; pow /= 2;} return res%mod; }
 ll factorial(ll x){ if(x == 1) return 1; return (x*factorial(x-1))%mod;  }
-bool pairScnd_Element(const pair<int, int> &a, const pair<int, int> &b) { if(a.ff == b.ff) a.ss < b.ss; return (a.ff > b.ff); }
+bool pairScnd_Elmt(const pair<int, int> &a, const pair<int, int> &b) { if(a.ff == b.ff) a.ss < b.ss; return (a.ff > b.ff); }
 bool is_sorted(vector<ll> v){vl v2 = v; ascending(v); if(v == v2) return true; else return false;}
-ll andInRange(ll n, ll m){ ll ans = 0; while(n!=m){ n>>=1; m>>=1; ans++;} return (n<<ans);}
-vector<ll> primeFactorization(ll n){ vector<ll> fac; while(n%2 ==  0){fac.push_back(2); n/=2;}for(ll i=3;i*i<=n;i+=2){while(n%i == 0){fac.push_back(i);n /= i;}}if(n > 2){fac.push_back(n);}sort(fac.begin(), fac.end()); return fac;}
 
 ////////////////////* Solution *///////////////////
-vector<ll> adj[100005];
-bool vis[100005], forbid;
-set<ll> forbidden;
-ll cycle = 0;
-void dfs(ll sv){
-  if(forbidden.count(sv)) forbid = true;
-  vis[sv] = true;
-  for(auto child: adj[sv]){
-    if(!(vis[child])) dfs(child);
+int dp[200005];
+int solved(string &s, int i){
+  if(i>=s.size()) return 0;
+  if(dp[i] != -1) return dp[i];
+  if(i == s.size()-1) return 1;
+  if(i<s.size()-1 && s[i] == s[i+1]) return solved(s,i+2);
+  else {
+    int j;
+    for(j = i+1; j<s.size(); j++)
+      if(s[i] == s[j]) break;
+
+    if(j == s.size())
+      return 1+solved(s, i+1);
+    else{
+      int c1 = j-i-1+solved(s, j+1);
+      int c2 = 1+solved(s, i+1);
+      return dp[i] = min(c1,c2);
+    }
   }
 }
 void solve(){
-  ll n;
-  cin >> n;
-  loop(i,0,n){
-    adj[i].clear();
-    vis[i] = false;
-    cycle = 0;
-    forbidden.clear();
-  }
-  vl v1(n), v2(n), v3(n);
-  loop(i,0,n-1) cin >> v1[i];
-  loop(i,0,n-1) cin >> v2[i];
-  loop(i,0,n-1){ 
-    cin >> v3[i]; 
-    forbidden.insert(v3[i]); 
-  }
-  loop(i,0,n-1){
-    if(v1[i] == v2[i]) continue;
-    adj[v1[i]].pb(v2[i]);
-    adj[v2[i]].pb(v1[i]);
-  }
-  loop(i,0,n-1){
-    if(v1[i] == v2[i]) continue;
-    forbid = false;
-    if(!vis[v1[i]]){
-      dfs(v1[i]); 
-      if(!forbid) {
-        cycle++;
-        //cout << v1[i] <<nl;
-      }
-    }
-  }
-  ll ans  = 1;
-  loop(i,1,cycle){
-    ans = (ans*2)%mod;
-  }
+  string str;
+  cin >> str;
+  loop(i,0,str.size()-1) dp[i] = -1;
+  int ans = solved(str, 0);
   cout << ans;
 }
 int main()
@@ -124,7 +84,7 @@ int main()
   int i = 1, tc = 1;
   cin >> tc;
   while(tc--){
-    //cout << "Case " << i++ << ": ";
+    //cout << "Case#" << i++ << " ";
     solve();
     cout << nl;
   }

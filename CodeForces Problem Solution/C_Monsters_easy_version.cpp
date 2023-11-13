@@ -55,7 +55,7 @@ typedef queue<long long> ql;
 typedef pair<ll,ll> pl;
 typedef vector<pl> vpl;
 
-const ll mod = 1e9+7;
+const ll mod = 98244353;
 const double pi = 3.141592653589793238;
 const ll l_max = 1e18;
 const ll l_min = -1e18;
@@ -69,52 +69,30 @@ ll andInRange(ll n, ll m){ ll ans = 0; while(n!=m){ n>>=1; m>>=1; ans++;} return
 vector<ll> primeFactorization(ll n){ vector<ll> fac; while(n%2 ==  0){fac.push_back(2); n/=2;}for(ll i=3;i*i<=n;i+=2){while(n%i == 0){fac.push_back(i);n /= i;}}if(n > 2){fac.push_back(n);}sort(fac.begin(), fac.end()); return fac;}
 
 ////////////////////* Solution *///////////////////
-vector<ll> adj[100005];
-bool vis[100005], forbid;
-set<ll> forbidden;
-ll cycle = 0;
-void dfs(ll sv){
-  if(forbidden.count(sv)) forbid = true;
-  vis[sv] = true;
-  for(auto child: adj[sv]){
-    if(!(vis[child])) dfs(child);
-  }
-}
 void solve(){
   ll n;
   cin >> n;
-  loop(i,0,n){
-    adj[i].clear();
-    vis[i] = false;
-    cycle = 0;
-    forbidden.clear();
+  vl v(n);
+  loop(i,0,n-1) cin >> v[i];
+  if(n == 1){
+    if(v[0] <= 1) cout << 0;
+    else cout << v[0] - 1;
+    return;
   }
-  vl v1(n), v2(n), v3(n);
-  loop(i,0,n-1) cin >> v1[i];
-  loop(i,0,n-1) cin >> v2[i];
-  loop(i,0,n-1){ 
-    cin >> v3[i]; 
-    forbidden.insert(v3[i]); 
-  }
+  ascending(v);
+  ll need = 1;
+  ll ans = 0;
   loop(i,0,n-1){
-    if(v1[i] == v2[i]) continue;
-    adj[v1[i]].pb(v2[i]);
-    adj[v2[i]].pb(v1[i]);
-  }
-  loop(i,0,n-1){
-    if(v1[i] == v2[i]) continue;
-    forbid = false;
-    if(!vis[v1[i]]){
-      dfs(v1[i]); 
-      if(!forbid) {
-        cycle++;
-        //cout << v1[i] <<nl;
-      }
+    if(v[i] == 0) continue;
+    else if(v[i] == 1){
+      need = 2;
+      continue;
     }
-  }
-  ll ans  = 1;
-  loop(i,1,cycle){
-    ans = (ans*2)%mod;
+    else if(v[i] < need) continue;
+    else{
+      ans += (v[i] - need);
+      need++;
+    }
   }
   cout << ans;
 }
