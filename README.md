@@ -1,5 +1,6 @@
 Welcome to my Competitive Coding world. 
-<br>I started competitive programming in May 2020 and have since solved over 750 problems across various online judges. Unfortunately, I had to stop participating because the NCPC and ICPC competitions often coincided with my examination periods. This was a particularly disappointing situation for me, as I was eager to compete but unable to perform due to my academic commitments. Here are my achievements:
+<br>
+I started competitive programming in May 2020 and solved over 750 problems on various online judges. Unfortunately, I had to leave competitive programming in March 2023 because most of the NCPC and ICPC contests were scheduled during my exams. This was a particularly disappointing time for me, as I wanted to participate but couldn't perform due to my academic commitments. Here are my achievements:
 
     Champion, ICE Fiesta Programming Contest 2023
     Bangladesh 3rd Rank (Global 350th), Codeforces Round 857 (Div. 2)
