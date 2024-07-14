@@ -11,7 +11,7 @@ Here is some of my profiles:
 # CodeForces
 My journey started on codeforces in July-2020 and ended in March-2023. I was solved 492 problems there. <br>
 <a href="https://codeforces.com/profile/sajeeb02" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/codeforces.svg" alt="sajeeb02" height="30" width="40" /> CodeForces Profile Link</a>
-<img src = 'https://github.com/SajeebRay/Competitive-Programmming/blob/main/Profile%20Screenshot/CodeForces.jpg' > 
+<img src = 'https://github.com/SajeebRay/Competitive-Programmming/blob/main/Profile%20Screenshot/CodeForces1.jpg' > 
 <br>
 # CodeChef
 In codechef, I was participate in the contest only. <br>
@@ -21,7 +21,7 @@ In codechef, I was participate in the contest only. <br>
 # HackerRank
 HackerRank is the platform, where I learnt coding and earned several batches from them. <br>
 <a href="https://www.hackerrank.com/sajeeb02" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/hackerrank.svg" alt="sajeeb02" height="30" width="40" /> HackerRank Profile Link</a>
-<img src = 'https://github.com/SajeebRay/Competitive-Programmming/blob/main/Profile%20Screenshot/HackerRank.jpg' > 
+<img src = 'https://github.com/SajeebRay/Competitive-Programmming/blob/main/Profile%20Screenshot/HackerRank1.jpg' > 
 <br>
 # URI
 URI is now Becrowd. My problem solving journey started on URI, and I solved 123 problems there.
